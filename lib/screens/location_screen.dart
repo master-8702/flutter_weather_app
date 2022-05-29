@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
+import 'package:clima/services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
   LocationScreen({this.weatherData});
@@ -10,9 +11,11 @@ class LocationScreen extends StatefulWidget {
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  WeatherModel weatherModel = WeatherModel();
   int temprature = 0;
-  int conditionWeatherId = 0;
+  String weatherIcon = "";
   String cityName = "";
+  String weatherMessage = "";
 
   @override
   void initState() {
@@ -24,9 +27,10 @@ class _LocationScreenState extends State<LocationScreen> {
   void updateUI(dynamic weatherData) {
     double temp = weatherData['main']['temp'];
     temprature = temp.toInt();
-    conditionWeatherId = weatherData['weather'][0]['id'];
+    weatherMessage = weatherModel.getMessage(temprature);
+    var conditionWeatherId = weatherData['weather'][0]['id'];
     cityName = weatherData['name'];
-    print(temprature);
+    weatherIcon = weatherModel.getWeatherIcon(conditionWeatherId);
   }
 
   @override
@@ -56,39 +60,50 @@ class _LocationScreenState extends State<LocationScreen> {
                     onPressed: () {},
                     child: Icon(
                       Icons.near_me,
-                      size: 25,
+                      size: 30,
+                      color: Colors.white,
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
                     child: Icon(
                       Icons.location_city,
-                      size: 25,
+                      size: 30,
+                      color: Colors.white,
                     ),
                   ),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Row(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      (temprature.toString() + "°C"),
-                      style: kTempTextStyle,
+                    Row(
+                      children: [
+                        Text(
+                          (temprature.toString() + "°C"),
+                          style: kTempTextStyle,
+                        ),
+                        Text(
+                          weatherIcon,
+                          style: kConditionTextStyle,
+                        ),
+                      ],
                     ),
-                    const Text(
-                      "☀️",
-                      style: kConditionTextStyle,
-                    )
+                    Text(cityName)
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  "It's IceCream Time In $cityName!",
-                  textAlign: TextAlign.right,
-                  style: kMessageTextStyle,
+                child: Center(
+                  child: Text(
+                    weatherMessage,
+                    textAlign: TextAlign.right,
+                    style: kMessageTextStyle,
+                  ),
                 ),
               )
             ],
