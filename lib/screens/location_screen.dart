@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({Key? key}) : super(key: key);
-
   @override
   State<LocationScreen> createState() => _LocationScreenState();
 }
