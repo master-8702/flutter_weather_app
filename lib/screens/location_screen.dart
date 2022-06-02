@@ -1,3 +1,4 @@
+import 'package:clima/screens/cityy_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:clima/services/weather.dart';
@@ -25,12 +26,14 @@ class _LocationScreenState extends State<LocationScreen> {
   }
 
   void updateUI(dynamic weatherData) {
-    double temp = weatherData['main']['temp'];
-    temprature = temp.toInt();
-    weatherMessage = weatherModel.getMessage(temprature);
-    var conditionWeatherId = weatherData['weather'][0]['id'];
-    cityName = weatherData['name'];
-    weatherIcon = weatherModel.getWeatherIcon(conditionWeatherId);
+    setState(() {
+      double temp = weatherData['main']['temp'];
+      temprature = temp.toInt();
+      weatherMessage = weatherModel.getMessage(temprature);
+      var conditionWeatherId = weatherData['weather'][0]['id'];
+      cityName = weatherData['name'];
+      weatherIcon = weatherModel.getWeatherIcon(conditionWeatherId);
+    });
   }
 
   @override
@@ -57,20 +60,44 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    onPressed: () {},
                     child: Icon(
                       Icons.near_me,
                       size: 30,
                       color: Colors.white,
                     ),
+                    onPressed: () async {
+                      WeatherModel weatherModel2 = WeatherModel();
+                      var weatherData =
+                          await weatherModel2.getLocationWeather();
+                      print("from location weather");
+                      print(weatherData);
+                      updateUI(weatherData);
+                    },
                   ),
                   TextButton(
-                    onPressed: () {},
                     child: Icon(
                       Icons.location_city,
                       size: 30,
                       color: Colors.white,
                     ),
+                    onPressed: () async {
+                      var cityName = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CityScreen();
+                          },
+                        ),
+                      );
+                      print(cityName);
+                      if (cityName != null) {
+                        var weatherData =
+                            await weatherModel.getCityWeather(cityName);
+                        print("from city  weather");
+                        print(weatherData);
+                        updateUI(weatherData);
+                      }
+                    },
                   ),
                 ],
               ),

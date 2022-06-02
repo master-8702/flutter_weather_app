@@ -9,44 +9,58 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
+  String cityName = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset:
+            false, // to avoid the resizing of widgets when opening keyboard.
         body: Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('images/city_background.jpg'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      constraints: BoxConstraints.expand(),
-      child: SafeArea(
-        child: Column(
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: TextButton(
-                onPressed: () {},
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 40,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/city_background.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          constraints: BoxConstraints.expand(),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Icon(
+                      Icons.arrow_back,
+                      size: 40,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
+                Container(
+                  padding: EdgeInsets.all(20.0),
+                  child: TextField(
+                    style: TextStyle(color: Colors.black, fontSize: 12),
+                    decoration: kTextFieldInputDecoration,
+                    onChanged: (text) {
+                      cityName = text;
+                    },
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, cityName);
+                  },
+                  child: Text(
+                    "Get Weather",
+                    style: kButtonTextStyle,
+                  ),
+                )
+              ],
             ),
-            Container(
-              padding: EdgeInsets.all(20.0),
-              child: null,
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                "Get Weather",
-                style: kButtonTextStyle,
-              ),
-            )
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }
