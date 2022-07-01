@@ -54,16 +54,23 @@ class _LocationScreenState extends State<LocationScreen> {
         child: SafeArea(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
-                    child: Icon(
-                      Icons.near_me,
-                      size: 30,
-                      color: Colors.white,
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.near_me,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          "Here",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ],
                     ),
                     onPressed: () async {
                       WeatherModel weatherModel2 = WeatherModel();
@@ -75,10 +82,19 @@ class _LocationScreenState extends State<LocationScreen> {
                     },
                   ),
                   TextButton(
-                    child: Icon(
-                      Icons.location_city,
-                      size: 30,
-                      color: Colors.white,
+                    style: TextButton.styleFrom(),
+                    child: Column(
+                      children: const [
+                        Icon(
+                          Icons.location_city,
+                          size: 50,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          "Search",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ],
                     ),
                     onPressed: () async {
                       var cityName = await Navigator.push(
@@ -104,8 +120,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
@@ -119,17 +134,28 @@ class _LocationScreenState extends State<LocationScreen> {
                         ),
                       ],
                     ),
-                    Text(cityName)
+                    Text(
+                      cityName,
+                      style: (TextStyle(
+                        fontSize: 20,
+                      )),
+                    )
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Center(
-                  child: Text(
-                    weatherMessage,
-                    textAlign: TextAlign.right,
-                    style: kMessageTextStyle,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      weatherMessage,
+                      textAlign: TextAlign.right,
+                      style: kMessageTextStyle,
+                    ),
                   ),
                 ),
               )
